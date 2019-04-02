@@ -6,20 +6,22 @@
     font-size: 14px;
     position: relative;
     z-index: 120;
-    background-color: #8c5a27;
+    background-color: #01579B;
 }
 
 .menu-item {
     color: white;
+    font-size: medium;
     cursor: pointer;
-    font-weight: 300;
+    font-weight: 800;
     padding: 6px 6px 6px 12px;
     border-radius: 3px;
 }
 
 .menu-item.selected {
+    color: #2c2c2c;
     cursor: default;
-    background-color: #ae7d48;
+    background-color: #03A9F4;
 }
 
 .menu-item:not(.selected):hover {

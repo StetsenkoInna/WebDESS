@@ -15,7 +15,7 @@ body {
 
 input:not([type="checkbox"]), select {
     border: none;
-    background-color: #fff4d8;
+    background-color: rgba(145, 204, 255, 0.39);
     height: 24px;
     padding: 0 8px;
     vertical-align: middle;
@@ -43,19 +43,20 @@ button, .ui-dialog .ui-dialog-buttonpane button {
     font-size: 12px;
     border: none;
     border-radius: 3px;
-    background-color: white;
+    background-color: #0271b4;
     cursor: pointer;
     vertical-align: middle;
     text-align: center;
     height: 26px;
     outline: none;
-    font-weight: 500;
+    font-weight: 800;
     text-decoration: none;
     margin-left: 3px;
+    color: white;
 }
 
 button:hover, .ui-dialog .ui-dialog-buttonpane button:hover {
-    background-color: #8c5a27;
+    background-color: #1565C0;
     color: white;
 }
 
@@ -66,12 +67,12 @@ input[type=number] {
 }
 
 .ui-dialog.ui-widget.ui-widget-content {
-    border: 2px solid #8c5a27;
+    border: 2px solid #1565C0;
     z-index: 120;
 }
 
 .ui-dialog-titlebar, .ui-dialog-buttonpane {
-    background-color: #d3a778;
+    background-color: #90CAF9;
 }
 
 button.ui-button {
@@ -80,7 +81,7 @@ button.ui-button {
 }
 
 button.ui-button:hover, button.ui-button:active {
-    background-color: #8c5a27;
+    background-color: #1565C0;
     border: none;
 }
 
@@ -108,7 +109,7 @@ div.hidden {
 
 .popup-line.last-in-group:not(:last-child) {
     padding-bottom: 10px;
-    border-bottom: 2px solid #d3a778;
+    border-bottom: 2px solid #90CAF9;
 }
 
 .popup-label {
@@ -148,7 +149,7 @@ div.hidden {
 
 .content-wrapper {
     width: auto;
-    background-color: white;
+    background-color: #EEEEEE;
     height: 100%;
     overflow: hidden;
     padding: 0;
@@ -176,7 +177,7 @@ div.hidden {
 .controls-area {
     padding: 15px;
     height: 26px;
-    background-color: #d3a778;
+    background-color: #0091EA;
 }
 
 .control-item {
@@ -185,6 +186,7 @@ div.hidden {
 }
 
 .control-item span {
+    color: white;
     height: 24px;
     display: inline-block;
     vertical-align: middle;
@@ -204,8 +206,8 @@ div.hidden {
     height: calc(100% - 66px);
     position: relative;
     z-index: 120;
-    background-color: white;
-    border-left: 6px solid #d3a778;
+    background-color: #E8E7E9;
+    border-left: 6px solid #bebebe;
 }
 
 .stats {
