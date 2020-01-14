@@ -1,0 +1,142 @@
+<div class="modal fade" id="transition-edit" tabindex="-1" role="dialog" aria-labelledby="transition-lab"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transition-lab">Edit a Transition</h5>
+        <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline">
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Name:</label>
+            <input type="text" class="form-control" id="transition-edit-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Number of Channels:</label>
+            <input type="text" class="form-control" id="transition-edit-channels">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Channels):</label>
+            <input type="text" class="form-control" id="transition-edit-channels-param-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Priority:</label>
+            <input type="number" class="form-control" id="transition-edit-priority" min="0">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Priority):</label>
+            <input type="text" class="form-control" id="transition-edit-priority-param-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Probability:</label>
+            <input type="number" class="form-control" id="transition-edit-probability" step="0.01" min="0" max="1">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Probability):</label>
+            <input type="text" class="form-control" id="transition-edit-probability-param-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Delay:</label>
+            <input type="number" class="form-control" id="transition-edit-delay" step="0.01" min="0">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Delay):</label>
+            <input type="text" class="form-control" id="transition-edit-delay-param-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Delay St. Deviation:</label>
+            <input type="number" class="form-control" id="transition-edit-deviation" step="0.01" min="0">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Delay St. D):</label>
+            <input type="text" class="form-control" id="transition-edit-deviation-param-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Distribution:</label>
+            <select class="form-control" id="transition-edit-distribution"></select>
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Param Name (Distribution):</label>
+            <input type="text" class="form-control" id="transition-edit-distribution-param-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-main" onclick="saveTransitionEdit()" data-dismiss="modal">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let transitionToEdit;
+
+  function saveTransitionEdit() {
+    $(document).trigger('netEdited');
+
+    const name = $('#transition-edit-name').val();
+    if (!name) return alert('Transition name cannot be empty.');
+
+    const channelsValue = $('#transition-edit-channels').val();
+    let channels
+    if (channelsValue.toLowerCase() === 'infinity') channels = Infinity;
+    else {
+      channels = parseInt(channelsValue);
+      if (channels < 1) return alert('The number of channels must be > 0 or infinity.');
+    }
+
+    const priority = parseInt($('#transition-edit-priority').val());
+    if (priority < 0) return alert('Priority must be a positive >= 0.');
+
+    const probability = parseFloat($('#transition-edit-probability').val());
+    if (probability < 0 || 1 < probability) return alert('Probability must be in [0, 1].');
+
+    const delay = parseFloat($('#transition-edit-delay').val());
+    if (delay < 0) return alert('Delay must be >= 0.');
+
+    const deviation = parseFloat($('#transition-edit-deviation').val());
+    if (deviation < 0) return alert('Standard deviation (for the delay) must be >= 0.');
+
+    const distribution = $('#transition-edit-distribution').val();
+
+    transitionToEdit.name = name;
+    transitionToEdit.channels = channels;
+    transitionToEdit.setChannelsParam($('#transition-edit-channels-param-name').val());
+    transitionToEdit.priority = priority;
+    transitionToEdit.setPriorityParam($('#transition-edit-priority-param-name').val());
+    transitionToEdit.probability = probability;
+    transitionToEdit.setProbabilityParam($('#transition-edit-probability-param-name').val());
+    transitionToEdit.delay = delay;
+    transitionToEdit.setDelayParam($('#transition-edit-delay-param-name').val());
+    transitionToEdit.deviation = deviation;
+    transitionToEdit.setDeviationParam($('#transition-edit-deviation-param-name').val());
+    transitionToEdit.distribution = (distribution === 'null') ? null : distribution;
+    transitionToEdit.setDistributionParam($('#transition-edit-distribution-param-name').val());
+
+    transitionToEdit.redraw();
+  }
+
+  function openTransitionEdit(transition) {
+    transitionToEdit = transition;
+
+    $('#transition-edit-name').val(transitionToEdit.name);
+    $('#transition-edit-channels').val(transitionToEdit.channels);
+    $('#transition-edit-channels-param-name').val(transitionToEdit.channelsParamName || '');
+    $('#transition-edit-priority').val(transitionToEdit.priority);
+    $('#transition-edit-priority-param-name').val(transitionToEdit.priorityParamName || '');
+    $('#transition-edit-probability').val(transitionToEdit.probability);
+    $('#transition-edit-probability-param-name').val(transitionToEdit.probabilityParamName || '');
+    $('#transition-edit-delay').val(transitionToEdit.delay);
+    $('#transition-edit-delay-param-name').val(transitionToEdit.delayParamName || '');
+    $('#transition-edit-deviation').val(transitionToEdit.deviation);
+    $('#transition-edit-deviation-param-name').val(transitionToEdit.deviationParamName || '');
+
+    let options = '';
+    transitionToEdit.distributionOptions.forEach(option => {
+      options += `<option>${option}</option>`;
+    });
+    $('#transition-edit-distribution').html(options);
+    $('#transition-edit-distribution-param-name').val(transitionToEdit.distributionParamName || '');
+  }
+</script>

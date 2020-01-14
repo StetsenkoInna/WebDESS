@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+  <% include tabs/header %>
+
+  <script type="text/javascript" src="Scripts/App/net.simulation.js"></script>
+  <script type="text/javascript" src="Scripts/App/net.designer.js"></script>
+</head>
+
+<body>
+  <div class="container-full d-flex flex-column h-100 p-0">
+    <% include tabs/nav/nav-bar %>
+
+    <div class="row flex-fill m-0">
+      <div class="sandbox flex-grow-1 m-0" id="sandbox"></div>
+      <div class="bg-white shadow min-w-20 px-3 py-2 m-0 z-10" id="stats-container">
+        <div class="h2">Statistics</div>
+        <div class="overflow-auto" id="stats"></div>
+      </div>
+    </div>
+
+    <% include tabs/nav/svg %>
+
+    <% include tabs/nav/code %>
+    <% include tabs/nav/save %>
+    <% include tabs/nav/open %>
+    <% include tabs/nav/settings %>
+
+    <% include tabs/editors/place %>
+    <% include tabs/editors/transition %>
+    <% include tabs/editors/arc %>
+  </div>
+</body>
+
+</html>
