@@ -1,0 +1,92 @@
+<div class="modal fade" id="model-arc-edit" tabindex="-1" role="dialog" aria-labelledby="model-arc-lab"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="model-arc-lab">Define an Arc</h5>
+        <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline">
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Connections count:</label>
+            <input type="number" class="form-control" id="model-arc-connections-count" min="1" max="100"
+              onchange="setConnectionsView()">
+          </div>
+
+          <div class="col" id="model-arc-connections"></div>
+
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Copies:</label>
+            <input type="number" class="form-control" id="model-arc-copies" min="1" max="100">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-main" onclick="defineModelArc()" data-dismiss="modal">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let firstObjectToConnect;
+  let secondObjectToConnect;
+
+  function setConnectionsView() {
+    let options = '<hr class="separator">';
+
+    let fromOprions = '';
+    firstObjectToConnect.net.places.forEach(({ name, id }) => {
+      fromOprions += `<option value="${id}">${name} - ${id}</option>`;
+    });
+
+    let toOprions = '';
+    secondObjectToConnect.net.places.forEach(({ name, id }) => {
+      toOprions += `<option value="${id}">${name} - ${id}</option>`;
+    });
+
+    const count = parseInt($('#model-arc-connections-count').val());
+    for (let i = 0; i < count; i++) {
+      options += `
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">From (place name):</label>
+            <select class="form-control" id="model-arc-from-${i}">${fromOprions}</select>
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">To (place name):</label>
+            <select class="form-control" id="model-arc-to-${i}">${toOprions}</select>
+          </div>
+          <hr class="separator">`;
+    }
+
+    $('#model-arc-connections').html(options);
+  }
+
+  function defineModelArc() {
+    removeTemporaryArrow();
+
+    const length = parseInt($('#model-arc-connections-count').val());
+    const connections = Array.from(new Array(length), (e, i) => ({
+      from: parseInt($(`#model-arc-from-${i}`).val()),
+      to: parseInt($(`#model-arc-to-${i}`).val()),
+    }));
+
+    const copies = parseInt($('#model-arc-copies').val());
+
+    net = null;
+    const arc = new PetriObjectArc(newArcId, firstObjectToConnect, secondObjectToConnect, connections, copies);
+    currentModel.arcs.push(arc);
+    arc.draw();
+    newArcId++;
+  }
+
+  function openDefineModelArc(firstObject, secondObject) {
+    firstObjectToConnect = firstObject;
+    secondObjectToConnect = secondObject;
+
+    $('#model-arc-connections-count').val(1);
+    setConnectionsView();
+    $('#model-arc-copies').val(1);
+  }
+</script>

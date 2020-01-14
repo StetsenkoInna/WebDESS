@@ -1,0 +1,167 @@
+html,body {
+  height: 100%;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+th, td {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}
+
+.btn-main, .ui-dialog .ui-dialog-buttonpane .btn-main {
+  margin: .1rem .2rem!important;
+  padding: .2rem .5rem;
+  vertical-align: middle;
+  border: none;
+  border-radius: .25rem!important;
+  font-weight: 500;
+  font-size: 1rem;
+  background-color: #6c757d;
+  color: white;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-main:hover, .ui-dialog .ui-dialog-buttonpane .btn-main:hover {
+  background-color: #5a6268;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.small {
+  font-size: 70%!important;
+}
+
+.min-w-20 {
+  min-width: 20%!important;
+}
+
+.z-10 {
+  z-index: 10!important;
+}
+
+.fill-black {
+  fill: black;
+}
+
+.top-svg {
+  display: none;
+}
+
+.petri-place {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url('../images/place.png') no-repeat center center;
+  background-size: contain;
+}
+
+.petri-place:hover {
+  cursor: pointer;
+  background: url('../images/place-hovered.png') no-repeat center center;
+  background-size: contain;
+}
+
+.petri-object {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url('../images/petri-object.png') no-repeat center center;
+  background-size: contain;
+}
+
+.petri-object:hover {
+  cursor: pointer;
+  background: url('../images/petri-object-hovered.png') no-repeat center center;
+  background-size: contain;
+}
+
+.item-name {
+  position: relative;
+  height: 18px;
+  top: -18px;
+  left: 0;
+  overflow-x: visible;
+  text-align: center;
+  margin: 0 -100%;
+  white-space: nowrap;
+  cursor: default;
+}
+
+:hover .item-name {
+  cursor: default;
+}
+
+.marker {
+  position: relative;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 5px;
+  margin: 0 3px 3px 0;
+}
+
+.markers {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  width: 50px;
+  top: -5px;
+  text-align: center;
+}
+
+.marker.animation-marker {
+  position: absolute;
+}
+
+.petri-transition {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url('../images/transition.png') no-repeat center center;
+  background-size: contain;
+}
+
+.petri-transition:hover {
+  cursor: pointer;
+  background: url('../images/transition-hovered.png') no-repeat center center;
+  background-size: contain;
+}
+
+.item-notes {
+  position: relative;
+  height: 18px;
+  bottom: -34px;
+  left: 0;
+  overflow-x: visible;
+  text-align: center;
+  margin: 0 -100%;
+  white-space: nowrap;
+  cursor: default;
+}
+
+:hover .item-notes {
+  cursor: default;
+}
+
+#sandbox > div {
+  z-index: 100;
+}
+
+#stats {
+  max-height: 80vh;
+}

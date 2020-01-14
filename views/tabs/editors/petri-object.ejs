@@ -1,0 +1,74 @@
+<div class="modal fade" id="petri-object-edit" tabindex="-1" role="dialog" aria-labelledby="petri-object-lab"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="petri-object-lab">Edit a Petri Object</h5>
+        <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline">
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Name:</label>
+            <input type="text" class="form-control" id="petri-object-edit-name">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Class Name:</label>
+            <input type="text" class="form-control" id="petri-object-edit-class">
+          </div>
+          <div class="form-group my-1 w-100">
+            <label class="col-6 justify-content-start">Net:</label>
+            <select class="form-control" id="petri-object-edit-net"></select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-main" onclick="savePetriObjectEdit()" data-dismiss="modal">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let petriObjectToEdit;
+  let netOptionsToEdit;
+
+  function savePetriObjectEdit() {
+    $(document).trigger('modelEdited');
+
+    const name = $('#petri-object-edit-name').val();
+    if (!name) return alert('Object name cannot be empty.');
+
+    const className = $('#petri-object-edit-class').val();
+    if (!className) return alert('Class name cannot be empty.');
+
+    const id = parseInt($('#petri-object-edit-net').val());
+
+    petriObjectToEdit.name = name;
+    petriObjectToEdit.className = className;
+    petriObjectToEdit.netId = id;
+    petriObjectToEdit.net = restorePetriNet(parsePetriNet(netOptionsToEdit.find(e => e.id === id).net));
+    petriObjectToEdit.redraw();
+  }
+
+  function openPetriObjectEdit(petriObject) {
+    petriObjectToEdit = petriObject;
+
+    netOptionsToEdit = filesManager.loadList('Net').map(e => ({
+      id: e.data.id,
+      name: e.title,
+      net: JSON.stringify(e.data),
+    }));
+    if (netOptionsToEdit.length === 0) return alert('Petri nets list is empty.');
+
+    $('#petri-object-edit-name').val(petriObjectToEdit.name);
+    $('#petri-object-edit-class').val(petriObjectToEdit.className);
+
+    let options = '';
+    netOptionsToEdit.forEach(({ id, name }) => {
+      const selected = petriObjectToEdit.netId === id ? ' selected="selected"' : '';
+      options += `<option value="${id}"${selected}>${name} (id: ${id})</option>`;
+    });
+    $('#petri-object-edit-net').html(options);
+  }
+</script>
