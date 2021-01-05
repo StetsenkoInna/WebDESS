@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import {PetriNet, Transition, Place, Arc} from './Models';
-import {getCoords, getDeepArrayCopy, normalizeString} from './helpers';
+import {PetriNet, Transition, Place, Arc} from '../objects';
+import {getCoords, getDeepArrayCopy, normalizeString} from '../helpers';
 
 const randomId = () => Math.round(Math.random() * 1e8);
 

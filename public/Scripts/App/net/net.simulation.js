@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import {getTimeString} from '../helpers';
+
 let withAnimation = false;
 let duration = 1000;
 let animationDuration = 1000;
@@ -11,27 +14,6 @@ var allDelaysAreZero;
 var animationMarkersCount;
 var stepsCount;
 var startTime;
-
-function getTimeString(duration) {
-    if (!duration) {
-        return 'none';
-    }
-    var minutes = parseInt(duration / (1000 * 60));
-    var rest = duration - (minutes * 1000 * 60);
-    var seconds = parseInt(rest / 1000);
-    var milliseconds = rest - (seconds * 1000);
-    var timeString = '';
-    if (minutes) {
-        timeString += ', ' + minutes + ' min';
-    }
-    if (seconds) {
-        timeString += ', ' + seconds + ' s';
-    }
-    if (milliseconds) {
-        timeString += ', ' + milliseconds + ' ms';
-    }
-    return timeString.substr(2);
-}
 
 function prepareStatsArea() {
     const $stats = $('#stats');
@@ -461,8 +443,8 @@ function makeSteps() {
     performFinalActions();
 }
 
-function runSimulationForNet(currentNet) {
-    net = currentNet;
+export function runSimulationForNet(currentNet) {
+    window.net = currentNet;
     for (var k = 0; k < net.transitions.length; k++) {
         var transition = net.transitions[k];
         if (!transition.outputTimesBuffer) {
@@ -477,7 +459,7 @@ function runSimulationForNet(currentNet) {
     allDelaysAreZero = net.allDelaysAreZero();
     currentTime = 0;
     stepsCount = 0;
-    needToStop = false;
+    window.needToStop = false;
 
     $(withAnimation ? 'button:not(#stop-btn)' : 'button').addClass('btn-disabled');
 
