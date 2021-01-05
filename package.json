@@ -9,7 +9,9 @@
     "restart": "pm2 restart process.yml",
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
-    "eslint": "eslint --fix ."
+    "eslint": "eslint --fix .",
+    "test": "karma start --browsers ChromeHeadless karma.config.js",
+    "build": "webpack"
   },
   "_moduleAliases": {
     "@db": "db",
@@ -28,7 +30,25 @@
     "ejs": "^2.7.1",
     "eslint": "^6.5.1",
     "express": "^4.17.1",
+    "jquery": "3.2.1",
     "module-alias": "^2.2.2",
     "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "browserify": "^17.0.0",
+    "chai": "^4.2.0",
+    "karma": "^5.2.3",
+    "karma-browserify": "^8.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jquery": "^0.2.4",
+    "karma-mocha": "^2.0.1",
+    "karma-webpack": "^4.0.2",
+    "mocha": "^8.2.1",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
   }
 }
