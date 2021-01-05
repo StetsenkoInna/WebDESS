@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import {moveItemToAnotherArray} from '../helpers';
+
 export class PetriNet {
     constructor(name) {
         this.id = null;

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export class Arc {
     constructor(id, place, transition, fromPlace, channels, isInformationLink) {
         this.id = id;

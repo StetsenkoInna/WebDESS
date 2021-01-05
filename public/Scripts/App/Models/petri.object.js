@@ -1,3 +1,8 @@
+// import {
+//     enableDragAndDrop,
+//     getDeepArrayCopy,
+// } from '../helpers';
+
 function PetriObject(id, name, className, net, top, left) {
     this.id = id;
 

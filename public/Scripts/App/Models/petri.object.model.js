@@ -1,3 +1,5 @@
+// import {moveItemToAnotherArray} from '../helpers';
+
 function PetriObjectModel(name) {
     this.id = null;
 

@@ -1,4 +1,6 @@
-window.onload = () => {
+import $ from 'jquery';
+
+export const historyHandler = () => {
   let history = [];
   const historyMaxLength = 50;
 

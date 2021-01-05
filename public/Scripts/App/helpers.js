@@ -1,26 +1,26 @@
-var allowDragAndDrop = true;
+import $ from 'jquery';
 
-function getDeepArrayCopy(initialArray) {
+export function getDeepArrayCopy(initialArray) {
     var newArray = [];
     for (var i = 0; i < initialArray.length; i++) {
-        newArray.push($.extend(true, { }, initialArray[i]));
+        newArray.push($.extend(true, {}, initialArray[i]));
     }
     return newArray;
 }
 
-function netParseCensor(key, value) {
+export function netParseCensor(key, value) {
     return value === 'Infinity' ? Infinity : value;
 }
 
-function escapeQuotes(str) {
+export function escapeQuotes(str) {
     return str.replace(/'/g, '\"').replace(/"/g, '\"');
 }
 
-function normalizeString(str) {
+export function normalizeString(str) {
     return str.replace(/[^A-Za-z0-9_]/g, '');
 }
 
-function moveItemToAnotherArray(item, fromArray, toArray) {
+export function moveItemToAnotherArray(item, fromArray, toArray) {
     var index = fromArray.indexOf(item);
     if (index > -1) {
         fromArray.splice(index, 1);
@@ -28,7 +28,7 @@ function moveItemToAnotherArray(item, fromArray, toArray) {
     }
 }
 
-function getTimeString(duration) {
+export function getTimeString(duration) {
     if (!duration) {
         return 'none';
     }
@@ -57,7 +57,7 @@ function gaussianRand() {
     return rand / 6;
 }
 
-function getDistributionRandomValue(distribution, delay, deviation) {
+export function getDistributionRandomValue(distribution, delay, deviation) {
     if (distribution === 'exp') {
         var a = 0;
         while (a === 0) {
@@ -78,7 +78,7 @@ function getDistributionRandomValue(distribution, delay, deviation) {
     return delay;
 }
 
-function getCoords(elem) {
+export function getCoords(elem) {
     var box = elem.getBoundingClientRect();
 
     var body = document.body;
@@ -108,7 +108,8 @@ function getPositionWithinSandbox(top, left, object) {
     };
 }
 
-function enableDragAndDrop(elemId, object) {
+window.allowDragAndDrop = true;
+export function enableDragAndDrop(elemId, object) {
     $('#' + elemId).each(function() {
         var self = this;
 

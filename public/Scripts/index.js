@@ -1,3 +1,6 @@
+import {historyHandler} from './system/history';
+window.onload = historyHandler;
+
 import {
   buildPetri,
   cleanBuffers,
@@ -12,7 +15,7 @@ import {
   reset,
   runNetModelSimulation,
   saveCurrentPetriNet
-} from './App/net.designer';
+} from './app/net.designer';
 
 window.buildPetri = buildPetri;
 window.cleanBuffers = cleanBuffers;

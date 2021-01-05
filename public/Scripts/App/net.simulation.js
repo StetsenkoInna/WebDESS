@@ -12,6 +12,27 @@ var animationMarkersCount;
 var stepsCount;
 var startTime;
 
+function getTimeString(duration) {
+    if (!duration) {
+        return 'none';
+    }
+    var minutes = parseInt(duration / (1000 * 60));
+    var rest = duration - (minutes * 1000 * 60);
+    var seconds = parseInt(rest / 1000);
+    var milliseconds = rest - (seconds * 1000);
+    var timeString = '';
+    if (minutes) {
+        timeString += ', ' + minutes + ' min';
+    }
+    if (seconds) {
+        timeString += ', ' + seconds + ' s';
+    }
+    if (milliseconds) {
+        timeString += ', ' + milliseconds + ' ms';
+    }
+    return timeString.substr(2);
+}
+
 function prepareStatsArea() {
     const $stats = $('#stats');
     $stats.html('');
