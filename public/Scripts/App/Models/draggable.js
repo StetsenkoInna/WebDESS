@@ -1,7 +1,8 @@
-function Draggable() {
+class Draggable {
+    move(top, left) {
+        this.top = top;
+        this.left = left;
+    }
 }
 
-Draggable.prototype.move = function (top, left) {
-    this.top = top;
-    this.left = left;
-};
+export default Draggable;

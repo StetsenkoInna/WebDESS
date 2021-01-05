@@ -1,3 +1,7 @@
+function endsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
 const filesManager = (() => {
   const cache = {
     Net: new Map(),
