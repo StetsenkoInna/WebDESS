@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import {getTimeString} from '../helpers';
 
-let withAnimation = false;
-let duration = 1000;
-let animationDuration = 1000;
-let cuDuration = 1000;
+window.withAnimation = false;
+window.duration = 1000;
+window.animationDuration = 1000;
+window.cuDuration = 1000;
 
 var currentTime;
 var nextEvents;

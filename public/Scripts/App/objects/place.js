@@ -86,15 +86,10 @@ export class Place extends Draggable {
             .appendTo($elem);
 
         $('.sandbox').append($elem);
-
         self.drawMarkers($elem);
 
         enableDragAndDrop(elemId, self);
-
-        $('#' + elemId).on('dblclick', function () {
-            $('#place-edit').modal('show');
-            openPlaceEdit(self);
-        });
+        $('#' + elemId).on('dblclick', () => openPlaceEdit(self));
     }
 }
 
