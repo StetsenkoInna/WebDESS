@@ -4,7 +4,7 @@
   "description": "Petri chart modeling tool",
   "main": "server.js",
   "scripts": {
-    "start": "pm2 start process.yml",
+    "start": "yarn build:watch & pm2 start process.yml",
     "stop": "pm2 stop process.yml",
     "restart": "pm2 restart process.yml",
     "logs": "pm2 logs --out",
