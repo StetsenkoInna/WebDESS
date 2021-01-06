@@ -201,41 +201,32 @@ export class Transition extends Draggable {
     }
 
     draw () {
-        var self = this;
+        const self = this;
 
-        var elemId = 'transition' + self.id;
+        const elemId = 'transition' + self.id;
         if ($('#' + elemId).length) {
             return;
         }
 
-        var $elem = $('<div>')
+        const $elem = $('<div>')
             .attr('id', elemId)
             .addClass('petri-transition')
             .css({'top': self.top + 'px', 'left': self.left + 'px'});
 
-        var $name = $('<div>')
-            .addClass('item-name')
-            .text(self.name)
-            .appendTo($elem);
+        $('<div>').addClass('item-name').text(self.name).appendTo($elem);
 
-        var notesText = 't = ' + self.getDelayString();
-        var distributionStr = self.getDistributionString();
+        let notesText = 't = ' + self.getDelayString();
+        const distributionStr = self.getDistributionString();
         if (distributionStr) {
             notesText += ' (' + distributionStr + ')';
         }
-        var $notes = $('<div>')
-            .addClass('item-notes')
-            .text(notesText)
-            .appendTo($elem);
 
+        $('<div>').addClass('item-notes').text(notesText).appendTo($elem);
         $('.sandbox').append($elem);
 
         enableDragAndDrop(elemId, self);
 
-        $('#' + elemId).on('dblclick', function () {
-            $('#transition-edit').modal('show');
-            openTransitionEdit(self);
-        });
+        $('#' + elemId).on('dblclick', () => openTransitionEdit(self));
     }
 }
 

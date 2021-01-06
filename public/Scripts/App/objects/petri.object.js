@@ -182,17 +182,10 @@ PetriObject.prototype.draw = function () {
         .addClass('petri-object')
         .css({'top': self.top + 'px', 'left': self.left + 'px'});
 
-    var $name = $('<div>')
-        .addClass('item-name')
-        .text(self.name)
-        .appendTo($elem);
+    $('<div>').addClass('item-name').text(self.name).appendTo($elem);
 
     var notesText = 'class: ' + self.className;
-    var $notes = $('<div>')
-        .addClass('item-notes')
-        .text(notesText)
-        .appendTo($elem);
-
+    $('<div>').addClass('item-notes').text(notesText).appendTo($elem);
     $('.sandbox').append($elem);
 
     enableDragAndDrop(elemId, self);

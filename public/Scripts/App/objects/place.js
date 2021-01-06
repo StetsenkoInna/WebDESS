@@ -68,22 +68,19 @@ export class Place extends Draggable {
     }
 
     draw () {
-        var self = this;
+        const self = this;
 
-        var elemId = 'place' + self.id;
+        const elemId = `place${self.id}`;
         if ($('#' + elemId).length) {
             return;
         }
 
-        var $elem = $('<div>')
+        const $elem = $('<div>')
             .attr('id', elemId)
             .addClass('petri-place')
             .css({'top': self.top + 'px', 'left': self.left + 'px'});
 
-        var $name = $('<div>')
-            .addClass('item-name')
-            .text(self.name)
-            .appendTo($elem);
+        $('<div>').addClass('item-name').text(self.name).appendTo($elem);
 
         $('.sandbox').append($elem);
         self.drawMarkers($elem);

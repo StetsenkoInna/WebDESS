@@ -118,6 +118,8 @@
   }
 
   function openTransitionEdit(transition) {
+    $('#transition-edit').modal('show');
+
     transitionToEdit = transition;
 
     $('#transition-edit-name').val(transitionToEdit.name);

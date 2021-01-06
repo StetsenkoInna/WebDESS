@@ -157,34 +157,36 @@ export class Arc {
     }
 
     draw () {
-        var self = this;
+        const self = this;
 
-        var elemId = 'arc' + self.id;
+        const elemId = 'arc' + self.id;
         if ($('#' + elemId).length) {
             return;
         }
 
-        var arrowType = self.fromPlace ? 'fromPlace' : 'toPlace';
-        var dashOrSolid = self.isInformationLink
+        const arrowType = self.fromPlace ? 'fromPlace' : 'toPlace';
+        const dashOrSolid = self.isInformationLink
             ? 'stroke-dasharray="10,10" '
             : '';
-        var arcNotes = '<text class="arc-note" fill="black">';
+
+        let arcNotes = '<text class="arc-note" fill="black">';
         if (self.channels > 1) {
             arcNotes += self.channels;
         }
         arcNotes += '</text>';
-        var arrowSvg = '<svg class="petri-arc" id="' + elemId + '">' + arcNotes + '<path class="arc-clickable-area" d="" style="stroke:transparent; '
-            + 'stroke-width: 18px; fill: none;" id="' + elemId + 'ClickableArea"/><path class="arrow-path" d="" ' + dashOrSolid + 'style="stroke:black; '
-            + 'stroke-width: 1.25px; fill: none; marker-end: url(#' + arrowType + 'Arrow);" id="' + elemId + 'ArrowPath"/></svg>';
+
+        const arrowSvg = `
+            <svg class="petri-arc" id="${elemId}">
+                ${arcNotes}
+                <path class="arc-clickable-area" d="" style="stroke:transparent; stroke-width: 18px; fill: none;" id="${elemId}ClickableArea"/>
+                <path class="arrow-path" d="" ${dashOrSolid} style="stroke:black; stroke-width: 1.25px; fill: none; marker-end: url(#${arrowType}Arrow);" id="${elemId}ArrowPath"/>
+            </svg>
+        `;
 
         $('.page-svg').append(arrowSvg);
-
         self.setArrowPosition();
 
-        $('#' + elemId).find('.arc-clickable-area, .arrow-path').on('dblclick', function () {
-            $('#arc-edit').modal('show');
-            openArcEdit(self);
-        });
+        $('#' + elemId).find('.arc-clickable-area, .arrow-path').on('dblclick', () => openArcEdit(self));
     }
 }
 
