@@ -1,49 +1,117 @@
 import {moveItemToAnotherArray} from '../../helpers';
 
-export function PetriObjectModel(name) {
-    this.id = null;
-
-    this.name = name;
-
-    this.objects = [];
-
-    this.arcs = [];
-}
-
-PetriObjectModel.prototype.getClass = function () {
-    return 'PetriObjectModel';
-};
-
-PetriObjectModel.prototype.hasParameters = function () {
-    var hasParams = false;
-
-    for (var i = 0; i < this.objects.length; i++) {
-        if (this.objects[i].hasParameters()) {
-            hasParams = true;
-            break;
-        }
+export class PetriObjectModel {
+    constructor(name) {
+        this.id = null;
+        this.name = name;
+        this.objects = [];
+        this.arcs = [];
     }
 
-    return hasParams;
-};
-
-PetriObjectModel.prototype.equalPlacesHaveEqualNumberOfMarkers = function () {
-    const self = this;
-
-    self.arcs.forEach(arc => {
-        const firstObject = self.objects.find(e => e.id === arc.firstObjectId);
-        const secondObject = self.objects.find(e => e.id === arc.secondObjectId);
-
-        arc.connections.forEach(({ from, to }) => {
-            const firstPlace = firstObject.net.places.find(e => e.id === from);
-            const secondPlace = secondObject.net.places.find(e => e.id === to);
-
-            if (firstPlace.markers !== secondPlace.markers) return false;
+    getClass () {
+        return 'PetriObjectModel';
+    }
+    
+    hasParameters () {
+        var hasParams = false;
+    
+        for (var i = 0; i < this.objects.length; i++) {
+            if (this.objects[i].hasParameters()) {
+                hasParams = true;
+                break;
+            }
+        }
+    
+        return hasParams;
+    }
+    
+    equalPlacesHaveEqualNumberOfMarkers () {
+        const self = this;
+    
+        self.arcs.forEach(arc => {
+            const firstObject = self.objects.find(e => e.id === arc.firstObjectId);
+            const secondObject = self.objects.find(e => e.id === arc.secondObjectId);
+    
+            arc.connections.forEach(({ from, to }) => {
+                const firstPlace = firstObject.net.places.find(e => e.id === from);
+                const secondPlace = secondObject.net.places.find(e => e.id === to);
+    
+                if (firstPlace.markers !== secondPlace.markers) return false;
+            });
         });
-    });
-
-    return true;
-};
+    
+        return true;
+    }
+    
+    generateJointNet () {
+        const self = this;
+        const net = buildModel(self, 0);
+    
+        net.transitions.forEach(e => {
+            e.outputTimesBuffer = [];
+            e.stats = {};
+        });
+    
+        net.places.forEach(e => {
+            e.stats = {};
+        });
+    
+        return net;
+    }
+    
+    isConnectedGraph () {
+        var self = this;
+    
+        var otherObjects = self.objects.slice();
+        var reachedObjects = [];
+        var finalizedObjects = [];
+    
+        moveItemToAnotherArray(otherObjects[0], otherObjects, reachedObjects);
+    
+        while (reachedObjects.length > 0) {
+            var currentObject = reachedObjects[0];
+            moveItemToAnotherArray(currentObject, reachedObjects, finalizedObjects);
+            var neighbourObjects = otherObjects.filter(function (object) {
+                return object.arcs.filter(function (arc) {
+                    return arc.firstObjectId === currentObject.id || arc.secondObjectId === currentObject.id;
+                }).length > 0;
+            });
+            for (var i = 0; i < neighbourObjects.length; i++) {
+                var neighbourObject = neighbourObjects[i];
+                moveItemToAnotherArray(neighbourObject, otherObjects, reachedObjects);
+            }
+        }
+    
+        return otherObjects.length === 0;
+    }
+    
+    validate () {
+        var self = this;
+    
+        if (!self.objects.length) {
+            return {
+                valid: false,
+                message: 'should contain at least 1 object.'
+            };
+        }
+    
+        if (!self.isConnectedGraph()) {
+            return {
+                valid: false,
+                message: 'should be a connected graph (there should be a path between every pair of objects).'
+            };
+        }
+    
+        return {
+            valid: true
+        };
+    }
+    
+    draw () {
+        this.objects.forEach(e => e.draw());
+        this.arcs.forEach(e => e.draw());
+    }
+}
 
 const buildModel = (self, modelIndex, parentModelIndex, connections = [], copyIndex = 0) => {
     const result = new PetriNet(self.name);
@@ -93,73 +161,4 @@ const buildModel = (self, modelIndex, parentModelIndex, connections = [], copyIn
     }
 
     return result;
-};
-
-PetriObjectModel.prototype.generateJointNet = function () {
-    const self = this;
-    const net = buildModel(self, 0);
-
-    net.transitions.forEach(e => {
-        e.outputTimesBuffer = [];
-        e.stats = {};
-    });
-
-    net.places.forEach(e => {
-        e.stats = {};
-    });
-
-    return net;
-};
-
-PetriObjectModel.prototype.isConnectedGraph = function () {
-    var self = this;
-
-    var otherObjects = self.objects.slice();
-    var reachedObjects = [];
-    var finalizedObjects = [];
-
-    moveItemToAnotherArray(otherObjects[0], otherObjects, reachedObjects);
-
-    while (reachedObjects.length > 0) {
-        var currentObject = reachedObjects[0];
-        moveItemToAnotherArray(currentObject, reachedObjects, finalizedObjects);
-        var neighbourObjects = otherObjects.filter(function (object) {
-            return object.arcs.filter(function (arc) {
-                return arc.firstObjectId === currentObject.id || arc.secondObjectId === currentObject.id;
-            }).length > 0;
-        });
-        for (var i = 0; i < neighbourObjects.length; i++) {
-            var neighbourObject = neighbourObjects[i];
-            moveItemToAnotherArray(neighbourObject, otherObjects, reachedObjects);
-        }
-    }
-
-    return otherObjects.length === 0;
-};
-
-PetriObjectModel.prototype.validate = function () {
-    var self = this;
-
-    if (!self.objects.length) {
-        return {
-            valid: false,
-            message: 'should contain at least 1 object.'
-        };
-    }
-
-    if (!self.isConnectedGraph()) {
-        return {
-            valid: false,
-            message: 'should be a connected graph (there should be a path between every pair of objects).'
-        };
-    }
-
-    return {
-        valid: true
-    };
-};
-
-PetriObjectModel.prototype.draw = function () {
-    this.objects.forEach(e => e.draw());
-    this.arcs.forEach(e => e.draw());
 };
