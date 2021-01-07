@@ -1,3 +1,6 @@
+import {PetriObjectArc, PetriObject, PetriObjectModel} from './objects';
+import {getCoords, getDeepArrayCopy, normalizeString} from '../helpers';
+
 const randomId = () => Math.round(Math.random() * 1e8);
 const getNetOptions = () => filesManager.loadList('Net').map(e => ({
     netId: e.data.id,
@@ -6,16 +9,17 @@ const getNetOptions = () => filesManager.loadList('Net').map(e => ({
 }));
 
 var newObjectId = 1,
-    newArcId = 1,
     newPetriObjectModelId = randomId();
 var distBtwnButtonsAndSandbox = 58;
 var temporaryArrowExists = false;
 var temporaryArrowFixed = false;
-var currentModel = new PetriObjectModel(null);
-currentModel.id = newPetriObjectModelId;
 var net;
 
-function reset() {
+window.newArcId = 1;
+window.currentModel = new PetriObjectModel(null);
+currentModel.id = newPetriObjectModelId;
+
+export function reset() {
     newPetriObjectModelId = randomId();
     newObjectId = newArcId = 1;
     temporaryArrowExists = false;
@@ -34,7 +38,7 @@ function createMouseDownEvent(buttonLocation) {
     return mouseDownEvent;
 }
 
-function newObject() {
+export function newObject() {
     var netOptions = getNetOptions();
     if (netOptions.length === 0) {
         alert('No saved Petri nets found. Please create them first.');
@@ -62,13 +66,13 @@ function drawTemporaryArrow(x, y) {
     $('.temp-arrow').find('.arrow-path')[0].setAttribute('d', `M${x},${y} L${x},${y}`);
 }
 
-function removeTemporaryArrow() {
+export function removeTemporaryArrow() {
     temporaryArrowExists = false;
     temporaryArrowFixed = false;
     $('.temp-arrow').remove();
 }
 
-function newArc() {
+export function newArc() {
     allowDragAndDrop = false;
     $(document).one('mousedown', function (e) {
         var beginElemId;
@@ -170,7 +174,7 @@ function restoreModel(jsonModel) {
     return model;
 }
 
-function buildPetri(json) {
+export function buildPetri(json) {
     const openedModel = restoreModel(json);
 
     newObjectId = getNextElementId(openedModel.objects);
@@ -185,7 +189,7 @@ function buildPetri(json) {
     currentModel.draw();
 }
 
-function getCurrentModel() {
+export function getCurrentModel() {
     const model = $.extend(true, {}, currentModel);
 
     model.objects = getDeepArrayCopy(currentModel.objects);
@@ -198,7 +202,7 @@ function getCurrentModel() {
     return { model, json: JSON.stringify(model) };
 }
 
-function saveCurrentModel(title) {
+export function saveCurrentModel(title) {
     currentModel.name = title;
     const { valid, message } = currentModel.validate();
     if (!valid) return alert(`Invalid Petri objects model: ${message}`);
@@ -208,7 +212,7 @@ function saveCurrentModel(title) {
     filesManager.createFile(title, true, 'Model', model);
 }
 
-function runModelSimulation() {
+export function runModelSimulation() {
     const { valid, message } = currentModel.validate();
     if (!valid) return alert(`Invalid Petri objects model: ${message}`);
 
@@ -258,14 +262,14 @@ function deleteObject(id) {
     }
 }
 
-function getNetById(netId) {
+export function getNetById(netId) {
     var netOptions = getNetOptions();
     return restorePetriNet(parsePetriNet(netOptions.filter(function (item) {
         return item.netId === netId;
     })[0].net));
 }
 
-function convertToFunction() {
+export function convertToFunction() {
     const { valid, message } = currentModel.validate();
     if (!valid) return returnalert(`Invalid Petri objects model: ${message}`);
 
@@ -294,7 +298,7 @@ function convertToFunction() {
     $('#function-invocation').val(`generate${normalizeString(name)}PetriObjectModel()`);
 }
 
-function generateFromFunction() {
+export function generateFromFunction() {
     let func;
     let net;
     let args;
@@ -340,11 +344,11 @@ function generateFromFunction() {
     currentModel.draw();
 }
 
-function clearProgrammingPopup() {
+export function clearProgrammingPopup() {
     $('#function-text, #function-invocation').val('');
 }
 
-function addMoreSimilarObjects(objectId, number) {
+export function addMoreSimilarObjects(objectId, number) {
     net = null;
     var initialObject = currentModel.objects.filter(function (item) {
         return item.id === objectId;

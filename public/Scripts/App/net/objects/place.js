@@ -1,6 +1,5 @@
 import $ from 'jquery';
-import Draggable from './draggable';
-import {enableDragAndDrop} from '../helpers';
+import {Draggable, enableDragAndDrop} from '../../helpers';
 
 export class Place extends Draggable {
     constructor(...args) {

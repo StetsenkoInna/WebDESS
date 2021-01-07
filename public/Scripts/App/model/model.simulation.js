@@ -1,3 +1,5 @@
+import {normalizeString, getTimeString} from '../helpers';
+
 let duration = 1000;
 
 var currentTime;
@@ -263,7 +265,7 @@ function makeSteps() {
     performFinalActions();
 }
 
-function runSimulationForModel(currentPetriObjectModel) {
+export function runSimulationForModel(currentPetriObjectModel) {
     currentTime = 0;
     stepsCount = 0;
     if (!currentPetriObjectModel.equalPlacesHaveEqualNumberOfMarkers()) {

@@ -1,5 +1,12 @@
 import $ from 'jquery';
 
+export class Draggable {
+    move(top, left) {
+        this.top = top;
+        this.left = left;
+    }
+}
+
 export function getDeepArrayCopy(initialArray) {
     const newArray = [];
     for (let i = 0; i < initialArray.length; i++) {
@@ -11,6 +18,7 @@ export function getDeepArrayCopy(initialArray) {
 export function netParseCensor(key, value) {
     return value === 'Infinity' ? Infinity : value;
 }
+window.netParseCensor = netParseCensor;
 
 export function escapeQuotes(str) {
     return str.replace(/'/g, '\"').replace(/"/g, '\"');

@@ -1,9 +1,11 @@
-// import {
-//     enableDragAndDrop,
-//     getDeepArrayCopy,
-// } from '../helpers';
+import $ from 'jquery';
+import {
+    Draggable,
+    enableDragAndDrop,
+    getDeepArrayCopy,
+} from '../../helpers';
 
-function PetriObject(id, name, className, net, top, left) {
+export function PetriObject(id, name, className, net, top, left) {
     this.id = id;
 
     this.name = name;

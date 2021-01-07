@@ -1,6 +1,9 @@
 import $ from 'jquery';
-import Draggable from './draggable';
-import {enableDragAndDrop, getDistributionRandomValue} from '../helpers';
+import {
+    Draggable,
+    enableDragAndDrop,
+    getDistributionRandomValue
+} from '../../helpers';
 
 export class Transition extends Draggable {
     constructor(...args) {

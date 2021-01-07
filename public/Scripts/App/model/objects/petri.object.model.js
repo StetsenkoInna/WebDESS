@@ -1,6 +1,6 @@
-// import {moveItemToAnotherArray} from '../helpers';
+import {moveItemToAnotherArray} from '../../helpers';
 
-function PetriObjectModel(name) {
+export function PetriObjectModel(name) {
     this.id = null;
 
     this.name = name;

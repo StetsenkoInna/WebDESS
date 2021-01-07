@@ -1,6 +1,4 @@
-import $ from 'jquery';
-
-export const historyHandler = () => {
+const historyHandler = () => {
   let history = [];
   const historyMaxLength = 50;
 
@@ -33,3 +31,5 @@ export const historyHandler = () => {
     if ((event.ctrlKey || event.metaKey) && event.keyCode === 90) undo();
   });
 };
+
+window.onload = historyHandler;
