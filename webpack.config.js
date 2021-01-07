@@ -3,8 +3,8 @@ var path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    net: './public/Scripts/app/net',
-    model: './public/Scripts/app/model',
+    net: './public/petri-sim-lib/net',
+    model: './public/petri-sim-lib/model',
   },
   output: {
     publicPath: '/',
