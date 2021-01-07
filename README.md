@@ -3,11 +3,12 @@ v1.0.0 Dec 22, 2019
 
 Petri chart modeling tool.
 
-0. Install **node** v10+, **yarn**, **pm2** and **postgres** 10+.
+1. Install **node** v10+, **yarn**, **pm2** and **postgres** 10+.
 1. Create database **webdess** for project.
-2. Create **process.yml** config file. Read **Config** part.
-3. Use **db/config.sql** as database configuration file.
-4. Install packages and start.
+1. Create empty dir **src/files**.
+1. Create **process.yml** config file. Read **Config** part.
+1. Use **db/config.sql** as database configuration file.
+1. Install packages and start.
 ```
 yarn
 yarn start
