@@ -172,28 +172,25 @@ PetriObject.prototype.destroy = function () {
 }
 
 PetriObject.prototype.draw = function () {
-    var self = this;
+    const self = this;
 
-    var elemId = 'object' + self.id;
+    const elemId = 'object' + self.id;
     if ($('#' + elemId).length) {
         return;
     }
 
-    var $elem = $('<div>')
+    const $elem = $('<div>')
         .attr('id', elemId)
         .addClass('petri-object')
         .css({'top': self.top + 'px', 'left': self.left + 'px'});
 
     $('<div>').addClass('item-name').text(self.name).appendTo($elem);
 
-    var notesText = 'class: ' + self.className;
+    const notesText = 'class: ' + self.className;
     $('<div>').addClass('item-notes').text(notesText).appendTo($elem);
     $('.sandbox').append($elem);
 
     enableDragAndDrop(elemId, self);
 
-    $('#' + elemId).on('dblclick', function () {
-        $('#petri-object-edit').modal('show');
-        openPetriObjectEdit(self);
-    });
+    $('#' + elemId).on('dblclick', () => openPetriObjectEdit(self));
 };

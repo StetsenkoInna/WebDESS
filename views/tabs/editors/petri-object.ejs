@@ -52,6 +52,8 @@
   }
 
   function openPetriObjectEdit(petriObject) {
+    $('#petri-object-edit').modal('show');
+
     petriObjectToEdit = petriObject;
 
     netOptionsToEdit = filesManager.loadList('Net').map(e => ({
