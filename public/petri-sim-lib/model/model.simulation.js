@@ -1,4 +1,4 @@
-let duration = 1000;
+import {normalizeString, getTimeString} from '../helpers';
 
 var currentTime;
 var nextEvents;
@@ -7,6 +7,8 @@ var activeTransitions;
 var allDelaysAreZero;
 var stepsCount;
 var startTime;
+
+window.duration = 1000;
 
 function prepareStatsArea() {
     const $stats = $('#stats');
@@ -263,7 +265,7 @@ function makeSteps() {
     performFinalActions();
 }
 
-function runSimulationForModel(currentPetriObjectModel) {
+export function runSimulationForModel(currentPetriObjectModel) {
     currentTime = 0;
     stepsCount = 0;
     if (!currentPetriObjectModel.equalPlacesHaveEqualNumberOfMarkers()) {

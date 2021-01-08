@@ -1,4 +1,4 @@
-window.onload = () => {
+const historyHandler = () => {
   let history = [];
   const historyMaxLength = 50;
 
@@ -31,3 +31,5 @@ window.onload = () => {
     if ((event.ctrlKey || event.metaKey) && event.keyCode === 90) undo();
   });
 };
+
+window.onload = historyHandler;

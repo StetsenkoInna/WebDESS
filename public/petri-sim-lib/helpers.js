@@ -1,63 +1,73 @@
-var allowDragAndDrop = true;
+import $ from 'jquery';
 
-function getDeepArrayCopy(initialArray) {
-    var newArray = [];
-    for (var i = 0; i < initialArray.length; i++) {
-        newArray.push($.extend(true, { }, initialArray[i]));
+export class Draggable {
+    move(top, left) {
+        this.top = top;
+        this.left = left;
+    }
+}
+
+export function getDeepArrayCopy(initialArray) {
+    const newArray = [];
+    for (let i = 0; i < initialArray.length; i++) {
+        newArray.push($.extend(true, {}, initialArray[i]));
     }
     return newArray;
 }
 
-function netParseCensor(key, value) {
+export function netParseCensor(key, value) {
     return value === 'Infinity' ? Infinity : value;
 }
+window.netParseCensor = netParseCensor;
 
-function escapeQuotes(str) {
+export function escapeQuotes(str) {
     return str.replace(/'/g, '\"').replace(/"/g, '\"');
 }
 
-function normalizeString(str) {
+export function normalizeString(str) {
     return str.replace(/[^A-Za-z0-9_]/g, '');
 }
 
-function moveItemToAnotherArray(item, fromArray, toArray) {
-    var index = fromArray.indexOf(item);
+export function moveItemToAnotherArray(item, fromArray, toArray) {
+    const index = fromArray.indexOf(item);
     if (index > -1) {
         fromArray.splice(index, 1);
         toArray.push(item);
     }
 }
 
-function getTimeString(duration) {
+export function getTimeString(duration) {
     if (!duration) {
         return 'none';
     }
-    var minutes = parseInt(duration / (1000 * 60));
-    var rest = duration - (minutes * 1000 * 60);
-    var seconds = parseInt(rest / 1000);
-    var milliseconds = rest - (seconds * 1000);
-    var timeString = '';
+
+    const minutes = parseInt(duration / (1000 * 60));
+    const rest = duration - (minutes * 1000 * 60);
+    const seconds = parseInt(rest / 1000);
+    const milliseconds = rest - (seconds * 1000);
+
+    let timeString = '';
     if (minutes) {
-        timeString += ', ' + minutes + ' min';
+        timeString += `, ${minutes} min`;
     }
     if (seconds) {
-        timeString += ', ' + seconds + ' s';
+        timeString += `, ${seconds} s`;
     }
     if (milliseconds) {
-        timeString += ', ' + milliseconds + ' ms';
+        timeString += `, ${milliseconds} ms`;
     }
     return timeString.substr(2);
 }
 
 function gaussianRand() {
-    var rand = 0;
-    for (var i = 0; i < 6; i++) {
+    let rand = 0;
+    for (let i = 0; i < 6; i++) {
         rand += Math.random();
     }
     return rand / 6;
 }
 
-function getDistributionRandomValue(distribution, delay, deviation) {
+export function getDistributionRandomValue(distribution, delay, deviation) {
     if (distribution === 'exp') {
         var a = 0;
         while (a === 0) {
@@ -78,20 +88,20 @@ function getDistributionRandomValue(distribution, delay, deviation) {
     return delay;
 }
 
-function getCoords(elem) {
-    var box = elem.getBoundingClientRect();
+export function getCoords(elem) {
+    const box = elem.getBoundingClientRect();
 
-    var body = document.body;
-    var docEl = document.documentElement;
+    const body = document.body;
+    const docEl = document.documentElement;
 
-    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
-    var clientTop = docEl.clientTop || body.clientTop || 0;
-    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+    const clientTop = docEl.clientTop || body.clientTop || 0;
+    const clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-    var top  = box.top + scrollTop - clientTop;
-    var left = box.left + scrollLeft - clientLeft;
+    const top  = box.top + scrollTop - clientTop;
+    const left = box.left + scrollLeft - clientLeft;
 
     return { top: Math.round(top), left: Math.round(left) };
 }
@@ -108,9 +118,10 @@ function getPositionWithinSandbox(top, left, object) {
     };
 }
 
-function enableDragAndDrop(elemId, object) {
+window.allowDragAndDrop = true;
+export function enableDragAndDrop(elemId, object) {
     $('#' + elemId).each(function() {
-        var self = this;
+        const self = this;
 
         self.onmousedown = function(e) {
             if (!allowDragAndDrop) {

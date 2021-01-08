@@ -1,7 +1,10 @@
-let withAnimation = false;
-let duration = 1000;
-let animationDuration = 1000;
-let cuDuration = 1000;
+import $ from 'jquery';
+import {getTimeString} from '../helpers';
+
+window.withAnimation = false;
+window.duration = 1000;
+window.animationDuration = 1000;
+window.cuDuration = 1000;
 
 var currentTime;
 var nextEvents;
@@ -440,8 +443,8 @@ function makeSteps() {
     performFinalActions();
 }
 
-function runSimulationForNet(currentNet) {
-    net = currentNet;
+export function runSimulationForNet(currentNet) {
+    window.net = currentNet;
     for (var k = 0; k < net.transitions.length; k++) {
         var transition = net.transitions[k];
         if (!transition.outputTimesBuffer) {
@@ -456,7 +459,7 @@ function runSimulationForNet(currentNet) {
     allDelaysAreZero = net.allDelaysAreZero();
     currentTime = 0;
     stepsCount = 0;
-    needToStop = false;
+    window.needToStop = false;
 
     $(withAnimation ? 'button:not(#stop-btn)' : 'button').addClass('btn-disabled');
 

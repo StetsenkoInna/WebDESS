@@ -1,3 +1,7 @@
+import $ from 'jquery';
+import {PetriNet, Transition, Place, Arc} from './objects';
+import {getCoords, getDeepArrayCopy, normalizeString} from '../helpers';
+
 const randomId = () => Math.round(Math.random() * 1e8);
 
 var newPlaceId = 1,
@@ -11,17 +15,17 @@ currentPetriNet.id = newPetriNetId;
 var needToStop;
 var net;
 
-function requestStop() {
+export function requestStop() {
     needToStop = true;
 }
 
-function cleanBuffers() {
+export function cleanBuffers() {
     for (var k = 0; k < currentPetriNet.transitions.length; k++) {
         currentPetriNet.transitions[k].outputTimesBuffer = undefined;
     }
 }
 
-function reset() {
+export function reset() {
     newPetriNetId = randomId();
     newPlaceId = newTransitionId = newArcId = 1;
     temporaryArrowExists = false;
@@ -39,7 +43,7 @@ function createMouseDownEvent(buttonLocation) {
     return mouseDownEvent;
 }
 
-function newPlace() {
+export function newPlace() {
     cleanBuffers();
     var location = getCoords($('#add-place-btn')[0]);
     var newPlace = new Place(newPlaceId, 'P' + newPlaceId, 0, location.top + distBtwnButtonsAndSandbox, location.left);
@@ -49,7 +53,7 @@ function newPlace() {
     newPlaceId++;
 }
 
-function newTransition() {
+export function newTransition() {
     cleanBuffers();
     var location = getCoords($('#add-transition-btn')[0]);
     var newTransition = new Transition(newTransitionId, 'T' + newTransitionId, 0, 0, null, 0, 1, 'Infinity', location.top + distBtwnButtonsAndSandbox, location.left);
@@ -75,7 +79,7 @@ function removeTemporaryArrow() {
     $('.top-svg').hide();
 }
 
-function newArc() {
+export function newArc() {
     allowDragAndDrop = false;
     $(document).one('mousedown', function (e) {
         var fromPlace = false;
@@ -145,7 +149,7 @@ function getNextElementId(elementsArray) {
     })) + 1;
 }
 
-function buildPetri(json) {
+export function buildPetri(json) {
     const openedNet = restorePetriNet(parsePetriNet(json));
 
     newPlaceId = getNextElementId(openedNet.places);
@@ -160,7 +164,7 @@ function buildPetri(json) {
     currentPetriNet.draw();
 }
 
-function getCurrentModel() {
+export function getCurrentModel() {
     const model = $.extend(true, {}, currentPetriNet);
 
     model.places = getDeepArrayCopy(currentPetriNet.places);
@@ -188,7 +192,7 @@ function getCurrentModel() {
     return { model, json };
 }
 
-function saveCurrentPetriNet(title) {
+export function saveCurrentPetriNet(title) {
     currentPetriNet.name = title;
     const { valid, message } = currentPetriNet.validate();
     if (!valid) return alert(`Invalid Petri net: ${message}`);
@@ -199,7 +203,7 @@ function saveCurrentPetriNet(title) {
     filesManager.createFile(title, true, 'Net', model);
 }
 
-function runNetModelSimulation() {
+export function runNetModelSimulation() {
     const { valid,message } = currentPetriNet.validate();
     if (!valid) return alert(`Invalid Petri net: ${message}`);
 
@@ -282,7 +286,7 @@ function deletePlace(id) {
     }
 }
 
-function convertToFunction() {
+export function convertToFunction() {
     const { valid, message } = currentPetriNet.validate();
     if (!valid) return alert(`Invalid Petri net: ${message}`);
 
@@ -321,7 +325,7 @@ function convertToFunction() {
     $('#function-invocation').val(`generate${normalizeString(name)}PetriNet()`);
 }
 
-function generateFromFunction() {
+export function generateFromFunction() {
     let func;
     let net;
     let args;
@@ -348,8 +352,12 @@ function generateFromFunction() {
         func = new Function(params, body);
     } catch (e) { return alert('Function parsing error.'); }
 
-    try { net = func.apply(this, args); }
-    catch (e) { return alert('Function execution error.'); }
+    try {
+        net = func.apply(this, args);
+    } catch (e) {
+        console.error(e);
+        return alert('Function execution error.');
+    }
 
     if (!net || !net.getClass || net.getClass() !== 'PetriNet')
         return alert('Error: invalid object returned from the function.');
@@ -368,7 +376,7 @@ function generateFromFunction() {
     currentPetriNet.draw();
 }
 
-function clearProgrammingPopup() {
+export function clearProgrammingPopup() {
     $('#function-text, #function-invocation').val('');
 }
 

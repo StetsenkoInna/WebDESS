@@ -1,4 +1,6 @@
-class PetriObjectArc {
+import $ from 'jquery';
+
+export class PetriObjectArc {
   constructor(id, firstObject, secondObject, connections, copies = 1) {
     this.id = id;
     this.firstObjectId = firstObject.id;
@@ -62,3 +64,5 @@ class PetriObjectArc {
 
   destroy() { $(`#object-arc${this.id}`).remove(); }
 }
+
+window.PetriObjectArc = PetriObjectArc;

@@ -4,12 +4,14 @@
   "description": "Petri chart modeling tool",
   "main": "server.js",
   "scripts": {
-    "start": "pm2 start process.yml",
+    "start": "yarn build:watch & pm2 start process.yml",
     "stop": "pm2 stop process.yml",
     "restart": "pm2 restart process.yml",
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
-    "eslint": "eslint --fix ."
+    "eslint": "eslint --fix .",
+    "build": "webpack",
+    "build:watch": "webpack --watch"
   },
   "_moduleAliases": {
     "@db": "db",
@@ -28,7 +30,15 @@
     "ejs": "^2.7.1",
     "eslint": "^6.5.1",
     "express": "^4.17.1",
+    "jquery": "3.2.1",
     "module-alias": "^2.2.2",
     "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
   }
 }
