@@ -1,7 +1,5 @@
 import {normalizeString, getTimeString} from '../helpers';
 
-let duration = 1000;
-
 var currentTime;
 var nextEvents;
 var nextTime;
@@ -9,6 +7,8 @@ var activeTransitions;
 var allDelaysAreZero;
 var stepsCount;
 var startTime;
+
+window.duration = 1000;
 
 function prepareStatsArea() {
     const $stats = $('#stats');
